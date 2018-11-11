@@ -9,7 +9,6 @@ class sysloganalyzer:
 		self.file = fn
 		self.lot = self.awk()
 		self.llot = len(self.lot)
-		#self.vals = {'nspi': [0, 0], 'udp': [0, 0], 'stun': [0, 0], 'http': [0, 0], 'bittorrent': [0, 0], 'unknown': [0, 0], 'bing': [0, 0], 'youtube': [0, 0], 'tcp': [0, 0], 'dcerpc': [0, 0], 'gtalk': [0, 0], 'ssl': [0, 0], 'facebook_mail': [0, 0], 'facebook': [0, 0], 'https': [0, 0], 'google_analytics': [0, 0], 'webex': [0, 0], 'gmail_basic': [0, 0], 'jabber': [0, 0], 'twitter': [0, 0]}
 		self.vals = {}
 
 	def awk(self):
@@ -82,7 +81,7 @@ class sysloganalyzer:
 		return s1[s1.index(s2) + len(s2):]
 
 def main():
-	sla = sysloganalyzer("Script_engineer", "application=", "origsent=", "termsent=")
+	sla = sysloganalyzer("sys-log", "application=", "origsent=", "termsent=")
 	sla.show()
 
 if __name__ == '__main__':
