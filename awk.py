@@ -2,10 +2,10 @@ import sys
 
 class sysloganalyzer:
 
-	def __init__(self, fn, *argv):
-		self.argv = argv
-		self.cargv = self.rlc(argv)
-		self.largv = len(argv)
+	def __init__(self, fn):
+		self.argv = sys.argv[2:]
+		self.cargv = self.rlc(self.argv)
+		self.largv = len(self.argv)
 		self.file = fn
 		self.lot = self.awk()
 		self.llot = len(self.lot)
@@ -70,9 +70,12 @@ class sysloganalyzer:
 			print "%20s\t" % element,
 
 		print "\n"
-		print "\t--------------------------------------------------------------"
+		print "\t", "-" * (self.largv * 21)
 		for key, value in sorted(self.vals.items()):
-			print "%20s\t %20s\t %20s\t" % (key, value[0], value[1])
+			print "%20s\t" % key,
+			for i in range(self.largv-1):
+				print "%20s\t" % value[i], 
+			print '\n'
 
 	def dicToLstOfTuple(self, dct):
 		return [(k, v) for k, v in dct.iteritems()]
@@ -81,8 +84,13 @@ class sysloganalyzer:
 		return s1[s1.index(s2) + len(s2):]
 
 def main():
-	sla = sysloganalyzer("sys-log", "application=", "origsent=", "termsent=")
-	sla.show()
+	if len(sys.argv) < 2:
+		print "[+] Usage: python",sys.argv[0]," <syslog file> <'application=', 'origsent=', 'termsent='>"
+	else:
+		sla = sysloganalyzer(sys.argv[1])
+		#sla = sysloganalyzer("sys-log", "application=", "origsent=", "termsent=")
+		sla.show()
 
 if __name__ == '__main__':
     main()
+
